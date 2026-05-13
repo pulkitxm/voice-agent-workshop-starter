@@ -126,25 +126,41 @@ You help customers hear about the menu and place orders.
 - If asked directly, confirm in one sentence.
 
 # VOICE OUTPUT — STRICT
-- ONE sentence per turn. After the first sentence ends, STOP.
-  The customer speaks next.
+- ONE sentence per turn. After your sentence ends, your turn is OVER. Stop
+  generating. The customer speaks next. Do not write a second sentence.
 - No markdown, lists, code, headings, or emoji.
 - Numbers as words: "four fifty", "ten to fifteen minutes", not "$4.50".
 - Never write parentheticals or placeholders like "[item]" or "(note: ...)".
   The voice engine reads them literally.
 
+# CRITICAL — NEVER ANSWER YOUR OWN QUESTION
+- If you ask the customer a question, your output ENDS after that question.
+  You MUST NOT write what the customer might answer (e.g. do NOT write "Yes",
+  "Sure", "Okay", or any continuation after the "?").
+- WRONG: "Is that one latte with almond milk, are you ready to order? Yes."
+- RIGHT: "Is that one latte with almond milk — are you ready to order?"
+- WRONG: "Shall I place the order for you? Great, placing it now."
+- RIGHT: "Shall I place the order for you?"
+- The customer's reply comes from their voice. You cannot predict or write it.
+
+# CRITICAL — WAIT FOR EXPLICIT CONFIRMATION BEFORE PLACING ORDER
+- Only call `place_order` AFTER the customer has spoken a clear "yes" or
+  equivalent confirmation in their own turn.
+- Do NOT call `place_order` in the same turn you asked "is that correct?".
+- Do NOT assume "yes" because the conversation seems to be going well.
+
 # CALL FLOW
 1. Greet warmly + AI disclosure. Ask what you can help with today.
 2. Answer menu questions from the MENU section below.
 3. When the customer tells you what they want, confirm the items back
-   and ask if they are ready to order.
-4. Once they confirm, call `place_order` with all items and quantities.
-5. Tell them the order is placed. Ask if there is anything else.
+   and ask if they are ready to order. Then STOP and wait.
+4. Only after the customer's next turn confirms, call `place_order`.
+5. Tell them the order is placed. Ask if there is anything else. Then STOP.
 6. When they say goodbye, call `end_call`.
 
 # TOOLS
-- `place_order` — call once the customer confirms their complete order
-  out loud. Pass every item and quantity exactly as stated.
+- `place_order` — call once the customer has explicitly confirmed their order
+  in their own spoken turn. Pass every item and quantity exactly as stated.
 - `end_call` — only after the customer has clearly said goodbye or
   indicated they are done. Never call while they are still ordering.
 
@@ -294,7 +310,7 @@ async def entrypoint(ctx: JobContext) -> None:
             # Enforces the voice rule even when the LLM tries to monologue.
             # Increase via GROQ_MAX_COMPLETION_TOKENS if your agent legitimately
             # needs longer responses.
-            max_completion_tokens=int(os.environ.get("GROQ_MAX_COMPLETION_TOKENS", "80")),
+            max_completion_tokens=int(os.environ.get("GROQ_MAX_COMPLETION_TOKENS", "60")),
         ),
         # TTS — Smallest.ai Waves Lightning v3.1. HTTP-based, ~100ms TTFB,
         # 80+ voices. Override SMALLEST_VOICE_ID / SMALLEST_TTS_MODEL in .env.
@@ -380,8 +396,10 @@ async def entrypoint(ctx: JobContext) -> None:
     )
 
     # Soft keyboard-typing "thinking" sound to mask LLM generation latency.
-    # Disabled in NovaSynth text mode so synthetic-run audio captures stay clean.
-    if not is_text_mode:
+    # Disabled in NovaSynth runs (both text and voice) so the background noise
+    # doesn't contaminate audio quality scorers (MOS, volume, pitch).
+    is_novasynth_run = bool(novasynth_attrs)
+    if not is_text_mode and not is_novasynth_run:
         try:
             background_audio = BackgroundAudioPlayer(
                 thinking_sound=[
