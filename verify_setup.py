@@ -130,7 +130,7 @@ def check_smallestai() -> None:
     try:
         # Hit the voices list endpoint as a cheap auth probe.
         r = requests.get(
-            "https://api.smallest.ai/waves/v1/lightning-v3.1/voices",
+            "https://api.smallest.ai/waves/v1/lightning-v3.1/get_voices",
             headers={"Authorization": f"Bearer {key}"},
             timeout=15,
         )
