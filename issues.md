@@ -5,7 +5,7 @@
 In the beginning I got this error:
 
 ```
-pulkit@Pulkits-MacBook-Pro voice-agent-workshop-starter % python3 verify_setup.py
+pulkit@Pulkits-MacBook-Pro voice-agent-workshop-starter % python verify_setup.py
 
 === Voice Agent Workshop — Setup Verification ===
 
@@ -46,12 +46,12 @@ The subdomain is found in LiveKit Cloud → Settings, and the agent `id` (`CA_..
 
 # Issue 3
 
-In the readme mention python3 not python
+In the readme mention python not python3
 
 # Issue 4
 
 ```
-(.venv) pulkit@Pulkits-MacBook-Pro voice-agent-workshop-starter % python3 agent.py dev  
+(.venv) pulkit@Pulkits-MacBook-Pro voice-agent-workshop-starter % python agent.py dev  
     18:03:31.015 DEBUG    asyncio            Using selector: KqueueSelector  
     18:03:31.017 DEV      livekit.agents     Watching /Users/pulkit/Desktop/samaan/vid-edit/voice-agent-workshop-starter  
     18:03:31.932 DEBUG    asyncio            Using selector: KqueueSelector  

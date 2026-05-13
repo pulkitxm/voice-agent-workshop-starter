@@ -1,9 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python3 -c \"import ast; ast.parse\\(open\\('/Users/shashank/Projects/voice-agent-workshop-starter/agent.py'\\).read\\(\\)\\); print\\('agent.py parses OK'\\)\")",
-      "Bash(python3 -c \"import ast; ast.parse\\(open\\('/Users/shashank/Projects/voice-agent-workshop-starter/agent.py'\\).read\\(\\)\\); ast.parse\\(open\\('/Users/shashank/Projects/voice-agent-workshop-starter/tools/end_call.py'\\).read\\(\\)\\); print\\('OK'\\)\")",
-      "Bash(python3 -c ' *)",
+      "Bash(python -c \"import ast; ast.parse\\(open\\('/Users/shashank/Projects/voice-agent-workshop-starter/agent.py'\\).read\\(\\)\\); print\\('agent.py parses OK'\\)\")",
+      "Bash(python -c \"import ast; ast.parse\\(open\\('/Users/shashank/Projects/voice-agent-workshop-starter/agent.py'\\).read\\(\\)\\); ast.parse\\(open\\('/Users/shashank/Projects/voice-agent-workshop-starter/tools/end_call.py'\\).read\\(\\)\\); print\\('OK'\\)\")",
+      "Bash(python -c ' *)",
       "WebFetch(domain:docs.livekit.io)",
       "Bash(curl -fsSL https://raw.githubusercontent.com/livekit/agents/main/examples/voice_agents/basic_agent.py)",
       "Bash(/Users/shashank/Projects/voice-agent-workshop-starter/.venv/bin/pip list *)",

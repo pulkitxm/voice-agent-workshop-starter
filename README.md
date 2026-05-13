@@ -25,7 +25,7 @@ Work through these at the start of the workshop. Step 1 (signups) may need a few
 git clone <this-repo-url> voice-agent-workshop-starter
 cd voice-agent-workshop-starter
 
-python3 -m venv .venv && source .venv/bin/activate
+python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
 cp .env.example .env
