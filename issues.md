@@ -30,7 +30,17 @@ pulkit@Pulkits-MacBook-Pro voice-agent-workshop-starter % python3 verify_setup.p
 
 # Issue 2
 
+`livekit.toml` starts with empty `subdomain` and `id` fields and there are no instructions on what to fill in or where to find the values. This caused confusion when trying to deploy.
 
+```toml
+[project]
+  subdomain = ""   # unclear — where do I find this?
+
+[agent]
+  id = ""          # unclear — is this created before or after lk agent create?
+```
+
+The subdomain is found in LiveKit Cloud → Settings, and the agent `id` (`CA_...`) is generated after running `lk agent create` (also visible via `lk agent list`). Neither the README nor the toml file explained this.
 
 # Issue 3
 
