@@ -1,5 +1,7 @@
 # Issue 1
 
+![Smallest.ai error](smallest-ai-error.png)
+
 In the beginning I got this error:
 
 ```
